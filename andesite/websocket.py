@@ -38,14 +38,8 @@ class WebSocket:
 
         uri = f"ws://{self.host}:{self.port}/websocket?user-id={self.user_id}"
 
-        headers = {"Authorization": self.password}
-        if self._connection_id is None:
-            pass
-        else:
-            headers["Andesite-Resume-Id"] = self._connection_id
-
         try:
-            self._ws = await websockets.connect(uri=uri, extra_headers=headers)
+            self._ws = await websockets.connect(uri=uri, extra_headers={"Authorization": self.password})
         except Exception as er:
             return logger.warning(er)
 
