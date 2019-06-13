@@ -20,6 +20,7 @@ class Player:
         self.last_update = None
         self.last_position = None
         self.last_state = None
+        self.position_timestamp = None
 
         self._voice_state = {}
 
@@ -105,6 +106,29 @@ class Player:
             op="play", guildId=str(self.guild_id), track=track.id
         )
         log.debug(f"[PLAYER] Now playing {track.title} in {self.channel_id}")
+
+    async def pause(self, pause):
+        if pause is self.paused:
+            return
+
+        self.paused = pause
+
+        await self.node._websocket._send(
+            op="pause", pause=pause, guildId=str(self.guild_id)
+        )
+
+    async def seek(self, position):
+        if not 0 < position < self.current.length:
+            raise ValueError("Position cannot be smaller than 0 or larger than track's length")
+
+        await self.node._websocket._send(
+            op="seek", position=position, guildId=str(self.guild_id)
+        )
+
+    async def set_volume(self, volume):
+        await self.node._websocket._send(
+            op="volume", volume=volume, guildId=str(self.guild_id)
+        )
 
     async def stop(self):
         pass
