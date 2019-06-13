@@ -1,10 +1,12 @@
 import logging
 import time
+import json
 
 from discord.ext import commands
 
 from .events import Event
 from .objects import Track
+from .filters import Filter
 
 log = logging.getLogger(__name__)
 
@@ -82,6 +84,13 @@ class Player:
         Figure out why it was being big dumb
         """
         await self.bot.ws.voice_state(self.guild_id, None)
+
+    async def set_filters(self, filter_type):
+        if Filter not in filter_type.__bases__:
+            raise TypeError("All filters must derive from `Filter`")
+
+        self.node._websocket._ws.send(json.dumps({"op": "filter",
+                                                  **filter_type._payload}))
 
     async def play(self, track):
         self.last_update = 0
