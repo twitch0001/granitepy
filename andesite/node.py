@@ -44,6 +44,7 @@ class Node:
         self._websocket = WebSocket(
             bot, self.host, self.port, self.password, self
         )
+        
         await self._websocket._connect()
 
     async def get_tracks(self, query: str):
