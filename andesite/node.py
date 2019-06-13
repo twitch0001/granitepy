@@ -6,7 +6,18 @@ from .websocket import WebSocket
 
 
 class Node:
-    def __init__(self, host: str, port: int, user_id: int, *, client, session, rest_uri: str, password, identifier):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        user_id: int,
+        *,
+        client,
+        session,
+        rest_uri: str,
+        password,
+        identifier,
+    ):
         self.host = host
         self.port = port
         self.user_id = user_id
@@ -30,14 +41,17 @@ class Node:
         return self.identifier
 
     async def connect(self, bot: commands.Bot):
-        self._websocket = WebSocket(bot, self.host, self.port, self.password, self.user_id, self)
+        self._websocket = WebSocket(
+            bot, self.host, self.port, self.password, self.user_id, self
+        )
         await self._websocket._connect()
 
     async def get_tracks(self, query: str):
         password = "null" if not self.password else self.password
 
         async with self.session.get(
-            f"http://{self.host}:{self.port}/loadtracks?identifier='{query}'", headers={"Authorization": password}
+            f"http://{self.host}:{self.port}/loadtracks?identifier='{query}'",
+            headers={"Authorization": password},
         ) as response:
             data = await response.json()
 

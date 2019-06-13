@@ -1,10 +1,12 @@
+import logging
 import time
 
 from discord.ext import commands
-from loguru import logger
 
 from .events import Event
 from .objects import Track
+
+log = logging.getLogger(__name__)
 
 
 class Player:
@@ -47,15 +49,18 @@ class Player:
 
         if not self.channel_id:
             self._voice_state.clear()
-            return logger.debug("[STATE] no channel_id, clearning state")
+            return log.debug("[STATE] no channel_id, clearning state")
 
         await self._dispatch_voice_update()
 
     async def _dispatch_voice_update(self):
-        # logger.debug("dispatching voice update to ws")
         if {"sessionId", "event"} == self._voice_state.keys():
-            logger.debug(f"[PLAYER] Sending voice-state")
-            await self.node._websocket._send(op="voice-server-update", guildId=str(self.guild_id), **self._voice_state)
+            log.debug(f"[PLAYER] Sending voice-state")
+            await self.node._websocket._send(
+                op="voice-server-update",
+                guildId=str(self.guild_id),
+                **self._voice_state,
+            )
 
     async def connect(self, channel_id: int):
         """
@@ -70,7 +75,7 @@ class Player:
         self.channel_id = channel_id
 
         await self.bot.ws.voice_state(self.guild_id, str(channel_id))
-        logger.info(f"[PLAYER] Connected to voice channel:  {channel_id}")
+        log.info(f"[PLAYER] Connected to voice channel:  {channel_id}")
 
     async def disconnect(self):
         """
@@ -86,9 +91,10 @@ class Player:
 
         self.current = track
 
-        logger.debug(dir(track))
-        await self.node._websocket._send(op="play", guildId=str(self.guild_id), track=track.id)
-        logger.debug(f"[PLAYER] Now playing {track.title} in {self.channel_id}")
+        await self.node._websocket._send(
+            op="play", guildId=str(self.guild_id), track=track.id
+        )
+        log.debug(f"[PLAYER] Now playing {track.title} in {self.channel_id}")
 
     async def stop(self):
         pass

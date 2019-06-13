@@ -1,15 +1,17 @@
 import asyncio
 import functools
 import inspect
+import logging
 
 import aiohttp
 from discord.ext import commands
-from loguru import logger
 
 from .events import Event
 from .exceptions import NodesUnavailable
 from .node import Node
 from .player import Player
+
+log = logging.getLogger(__name__)
 
 
 class Client:
@@ -41,7 +43,9 @@ class Client:
 
         return {player.guild_id: player for player in players}
 
-    async def start_node(self, host: str, port: int, *, rest_uri: str, password: str, identifier):
+    async def start_node(
+        self, host: str, port: int, *, rest_uri: str, password: str, identifier
+    ):
         await self.bot.wait_until_ready()
 
         node = Node(
