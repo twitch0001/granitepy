@@ -43,8 +43,7 @@ class Node:
     async def connect(self, bot: commands.Bot):
         self._websocket = WebSocket(
             bot, self.host, self.port, self.password, self
-        )
-        
+        ) # git please help me
         await self._websocket._connect()
 
     async def get_tracks(self, query: str):
