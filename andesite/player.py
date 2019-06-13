@@ -106,5 +106,15 @@ class Player:
         )
         log.debug(f"[PLAYER] Now playing {track.title} in {self.channel_id}")
 
+    async def pause(self, pause):
+        if pause is self.paused:
+            return
+
+        self.paused = pause
+
+        await self.node._websocket._send(
+            op="pause", pause=pause, guildId=str(self.guild_id)
+        )
+
     async def stop(self):
         pass
