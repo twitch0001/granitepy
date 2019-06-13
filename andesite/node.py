@@ -42,8 +42,9 @@ class Node:
 
     async def connect(self, bot: commands.Bot):
         self._websocket = WebSocket(
-            bot, self.host, self.port, self.password, self.user_id, self
+            bot, self.host, self.port, self.password, self
         )
+        
         await self._websocket._connect()
 
     async def get_tracks(self, query: str):
