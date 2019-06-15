@@ -87,10 +87,10 @@ class Player:
         await self.bot.ws.voice_state(self.guild_id, None)
 
     async def set_filters(self, filter_type):
-        if Filter not in filter_type.__bases__:
+        if not issubclass(filter_type.__class__, Filter):
             raise TypeError("All filters must derive from `Filter`")
 
-        self.node._websocket._ws.send(
+        await self.node._websocket._ws.send(
             json.dumps(
                 {"op": "filter", **filter_type._payload, "guildId": str(self.guild_id)}
             )
