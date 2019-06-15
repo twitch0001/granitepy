@@ -90,9 +90,11 @@ class Player:
         if Filter not in filter_type.__bases__:
             raise TypeError("All filters must derive from `Filter`")
 
-        self.node._websocket._ws.send(json.dumps({"op": "filter",
-                                                  **filter_type._payload,
-                                                  "guildId": str(self.guild_id)}))
+        self.node._websocket._ws.send(
+            json.dumps(
+                {"op": "filter", **filter_type._payload, "guildId": str(self.guild_id)}
+            )
+        )
 
     async def play(self, track):
         self.last_update = 0
@@ -119,7 +121,9 @@ class Player:
 
     async def seek(self, position):
         if not 0 < position < self.current.length:
-            raise ValueError("Position cannot be smaller than 0 or larger than track's length")
+            raise ValueError(
+                "Position cannot be smaller than 0 or larger than track's length"
+            )
 
         await self.node._websocket._send(
             op="seek", position=position, guildId=str(self.guild_id)
@@ -131,4 +135,4 @@ class Player:
         )
 
     async def stop(self):
-        pass
+        await self.node._websocket._send(op="stop", guildId=str(self.guild_id))
