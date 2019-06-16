@@ -1,8 +1,5 @@
-import asyncio
 import json
 import logging
-import sys
-import traceback
 
 import websockets
 from discord.ext import commands

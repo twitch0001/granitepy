@@ -4,8 +4,6 @@ import json
 
 from discord.ext import commands
 
-from .events import Event
-from .objects import Track
 from .filters import Filter
 
 log = logging.getLogger(__name__)
@@ -67,7 +65,7 @@ class Player:
 
     async def connect(self, channel_id: int):
         """
-        Connects to a VoiceChannel, 
+        Connects to a VoiceChannel,
         Params:
           - channel_id integer
         """

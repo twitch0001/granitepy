@@ -1,7 +1,6 @@
 from discord.ext import commands
 
 from .objects import Track
-from .player import Player
 from .websocket import WebSocket
 
 
