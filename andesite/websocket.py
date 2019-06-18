@@ -113,6 +113,8 @@ class WebSocket:
         if event is None:
             log.debug("Unknown event %s, discarding", data["type"])
             return
+        
+        log.debug("Dispatching event %s for guildId %s", data['type'], data['guildId'])
 
         await self._node._client.dispatch(event(player, data))
 
