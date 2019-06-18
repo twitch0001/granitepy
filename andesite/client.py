@@ -1,6 +1,4 @@
 import asyncio
-import functools
-import inspect
 import logging
 
 import aiohttp
@@ -119,7 +117,7 @@ class Client:
             return
 
     async def dispatch(self, event: Event):
-        """ 
+        """
         Dispatches events, WIP.
         """
         event_name = "andesite_" + event.name

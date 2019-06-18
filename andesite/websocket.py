@@ -1,13 +1,10 @@
-import asyncio
 import json
 import logging
-import sys
-import traceback
 
 import websockets
 from discord.ext import commands
 
-from .events import *
+from . import events
 
 log = logging.getLogger(__name__)
 
@@ -111,22 +108,13 @@ class WebSocket:
             int(data["guildId"])
         ]  # getting the player that all events use, apart from websocket close.
 
-        if data["type"] == "TrackStartEvent":
-            await self._node._client.dispatch(
-                TrackStartEvent(player, data["track"])
-            )
-        elif data["type"] == "TrackEndEvent":
-            await self._node._client.dispatch(
-                TrackEndEvent(player, data["track"], data["reason"], data["mayStartNext"])
-            )
-        elif data["type"] == "TrackStuckEvent":
-            await self._node._client.dispatch(
-                TrackStuckEvent(player, data["track"], data["thresholdMs"])
-            )
-        elif data["type"] == "WebSocketClosedEvent":
-            await self._node._client.dispatch(
-                WebSocketClosedEvent(player, data["reason"], data["code"], data["byRemote"])
-            )
+        event = getattr(events, data["type"], None)
+
+        if event is None:
+            log.debug("Unknown event %s, discarding", data["type"])
+            return
+
+        await self._node._client.dispatch(event(player, data))
 
     async def _send(self, **data):
         if self.is_connected:
