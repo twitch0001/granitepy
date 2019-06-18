@@ -4,7 +4,7 @@ import logging
 import websockets
 from discord.ext import commands
 
-import andesite.events as events
+from . import events
 
 log = logging.getLogger(__name__)
 
