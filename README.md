@@ -1,6 +1,6 @@
 # granitepy
 
-A library for the lavalink like audio provider called andesite found [here](https://github.com/natanbc/andesite-node) for use with [discord.py](https://github.com/Rapptz/discord.py)
+A library for the Lavalink like audio provider called [Andesite](https://github.com/natanbc/andesite-node) for use with [discord.py](https://github.com/Rapptz/discord.py)
 
 
 
