@@ -43,6 +43,9 @@ async def on_ready():
 @bot.command()
 async def connect(ctx):
     player = bot.andesite.get_player(ctx.guild.id) # fetches the player
+
+    if not ctx.author.voice:
+        return await ctx.send("Must be connected to a voice channel")
     
     await player.connect(ctx.author.voice.channel.id) # connects to the channel the command invoker is in
 
@@ -53,6 +56,9 @@ async def play(ctx, *, search):
     player = bot.andesite.get_player(ctx.guild.id)
 
     tracks = await player.node.get_tracks(f"ytsearch: {search}") # returns a list andesite.Track objects 
+    if not tracks: # andesite returned no tracks.
+        return await ctx.send("Nothing found.")
+
 
     await player.play(tracks[0]) # plays the first track from the list.
 
