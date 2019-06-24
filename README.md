@@ -49,3 +49,8 @@ async def play(ctx, *, search):
 bot.run("token")
 ```
 
+
+This lib is heavily based on [Wavelink](https://github.com/EvieePy/Wavelink) made by [EvieePy](https://github.com/EvieePy) Huge thanks for making wavelink, would be stuck on a few connection things if it weren't for wavelink.
+
+
+
