@@ -1,11 +1,22 @@
 # granitepy
 
-A library for the lavalink like audio provider called andesite found [here](https://github.com/natanbc/andesite-node)
+A library for the lavalink like audio provider called andesite found [here](https://github.com/natanbc/andesite-node) for use with [discord.py](https://github.com/Rapptz/discord.py)
 
 
+
+For support join [here](https://discord.gg/CHemuhc)
+
+
+
+
+# Installing
+ 
 The library isn't on PyPi yet so installing it will require git
 
 `pip install git+https://github.com/twitch0001/granitepy`
+
+
+# Example
 
 
 
@@ -51,6 +62,5 @@ bot.run("token")
 
 
 This lib is heavily based on [Wavelink](https://github.com/EvieePy/Wavelink) made by [EvieePy](https://github.com/EvieePy) Huge thanks for making wavelink, would be stuck on a few connection things if it weren't for wavelink.
-
 
 

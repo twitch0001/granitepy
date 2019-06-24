@@ -9,6 +9,6 @@ setup(
     author_email = "twitch@trenchbot.xyz",
     url = "https://github.com/twitch0001/granitepy",
     keywords = ['andesite'],
-    install_requires=['websockets', 'aiohttp']
+    install_requires=['websockets>=6.0,<7.0', 'aiohttp']
 )
 
