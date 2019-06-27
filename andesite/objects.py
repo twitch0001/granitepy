@@ -14,3 +14,6 @@ class Track:
 
     def __str__(self):
         return self.title
+
+    def __repr__(self):
+        return "<Track length={0.length} is_stream={0.is_stream}>".format(self)
