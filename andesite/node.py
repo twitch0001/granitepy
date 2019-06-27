@@ -17,6 +17,7 @@ class Node:
         password,
         identifier,
     ):
+        self.rest_uri = rest_uri
         self.host = host
         self.port = port
         self.user_id = user_id
@@ -49,7 +50,7 @@ class Node:
         password = "null" if not self.password else self.password
 
         async with self.session.get(
-            f"http://{self.host}:{self.port}/loadtracks?identifier='{query}'",
+            f"http://{self.rest_uri}/loadtracks", params = dict(identifier = query),
             headers={"Authorization": password},
         ) as response:
             data = await response.json()
