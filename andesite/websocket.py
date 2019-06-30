@@ -53,7 +53,7 @@ class WebSocket:
 
         self._closed = False
 
-        log.debug(f"[WEBSOCKET] Connected to {self.host} on port {self.port}")
+        log.debug(f"Connected to {self.host} on port {self.port}")
 
     async def _listen(self):
         while True:
@@ -61,18 +61,18 @@ class WebSocket:
                 data = await self._ws.recv()
             except websockets.ConnectionClosed as e:
                 if e.code == 4001:
-                    log.warning("[WEBSOCKET] Incorrect authentication.")
+                    log.warning("Incorrect authentication.")
                     break
 
                 elif e.code == 4002:
                     log.warning(
-                        f"[WEBSOCKET] Closed with code 4002, attempting reconnect."
+                        f"Closed with code 4002, attempting reconnect."
                     )
                     await self._connect()
                     break
 
                 else:
-                    log.warning(f"[WEBSOCKET] Closed with code {e.code}")
+                    log.warning(f"Closed with code {e.code}")
                     break
 
             if data:
@@ -87,7 +87,7 @@ class WebSocket:
 
                 elif op == "metadata":
                     self.metadata = data["data"]
-                    log.debug("[WEBSOCKET] Received metadata payload.")
+                    log.debug("Received metadata payload.")
 
                 elif op == "player-update":
                     try:
@@ -95,13 +95,13 @@ class WebSocket:
                             data
                         )
                     except Exception as er:
-                        log.warning(f"[WEBSOCKET] Error in player-state data {data}")
+                        log.warning(f"Error in player-state data {data}")
 
                 elif op == "event":
                     await self._event_dispatcher(data)
 
                 else:
-                    log.debug(f"[WEBSOCKET] opcode {op} returned {data}")
+                    log.debug(f"OP {op} returned {data}")
 
     async def _event_dispatcher(self, data):
         player = self._node.players[
@@ -120,5 +120,5 @@ class WebSocket:
 
     async def _send(self, **data):
         if self.is_connected:
-            log.debug(f"[WEBSOCKET] Sending payload {data}")
+            log.debug(f"Sending payload {data}")
             await self._ws.send(json.dumps(data))

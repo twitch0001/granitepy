@@ -18,3 +18,17 @@ class Track:
 
     def __repr__(self):
         return "<Track length={0.length} is_stream={0.is_stream}>".format(self)
+
+
+class Playlist:
+    """Playlist Object.
+
+    data - A dict returned from andesite
+    tracks - list of andesite.Track
+    """
+    def __init__(self, data: dict):
+        self.data = data
+        self.tracks = [Track(_id=track['id'], data=track['info']) for track in data['tracks']]
+
+
+

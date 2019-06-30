@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from .objects import Track
+from .objects import Track, Playlist
 from .websocket import WebSocket
 
 
@@ -55,8 +55,11 @@ class Node:
         ) as response:
             data = await response.json()
 
-        if not data["tracks"]:
+        if not data['tracks']:
             return None
+
+        if data['loadType'] == 'PLAYLIST_LOADED':
+            return Playlist(data = data)
 
         tracks = []
         for track in data["tracks"]:

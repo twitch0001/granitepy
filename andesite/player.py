@@ -134,3 +134,7 @@ class Player:
 
     async def stop(self):
         await self.node._websocket._send(op="stop", guildId=str(self.guild_id))
+
+
+    async def get_tracks(self, query: str):
+        return await self.node.get_tracks(query)
