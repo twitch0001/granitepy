@@ -46,7 +46,11 @@ class Player:
     async def _voice_state_update(self, data):
         self._voice_state.update({"sessionId": data["session_id"]})
 
-        self.channel_id = int(data["channel_id"])
+
+        if data['channel_id'] is None:
+            self.channel_id = None
+        else:
+            self.channel_id = int(data["channel_id"])
 
         if not self.channel_id:
             self._voice_state.clear()
