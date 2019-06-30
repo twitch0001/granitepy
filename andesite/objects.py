@@ -28,7 +28,7 @@ class Playlist:
     """
     def __init__(self, data: dict):
         self.data = data
-        self.tracks = [Track(_id=track['track'], data=track['info']) for track in data['tracks']]
+        self.tracks = [Track(_id = track['track'], data = track['info']) for track in data['tracks']]
 
 
 
