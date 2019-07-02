@@ -55,7 +55,8 @@ class Node:
         ) as response:
             data = await response.json()
 
-        if not data['tracks']:
+        tracks = data.get('tracks', None)
+        if tracks is None:
             return None
 
         if data['loadType'] == 'PLAYLIST_LOADED':
