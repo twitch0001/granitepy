@@ -50,7 +50,6 @@ class Node:
             bot, self.host, self.port, self.password, self
         )
         await self._websocket._connect()
-
         log.debug(f"NODE | Connected {self.__repr__()}")
 
     async def get_tracks(self, query: str):
