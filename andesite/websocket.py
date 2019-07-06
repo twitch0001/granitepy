@@ -53,7 +53,7 @@ class WebSocket:
 
         self._closed = False
 
-        log.debug(f"Connected to {self.host} on port {self.port}")
+        log.debug(f"WEBSOCKET | Connection established to {uri}")
 
     async def _listen(self):
         while True:
@@ -61,18 +61,18 @@ class WebSocket:
                 data = await self._ws.recv()
             except websockets.ConnectionClosed as e:
                 if e.code == 4001:
-                    log.warning("Incorrect authentication.")
+                    log.warning("WEBSOCKET | Incorrect authentication")
                     break
 
                 elif e.code == 4002:
                     log.warning(
-                        f"Closed with code 4002, attempting reconnect."
+                        f"WEBSOCKET | Closed with code 4002, attempting reconnect"
                     )
                     await self._connect()
                     break
 
                 else:
-                    log.warning(f"Closed with code {e.code}")
+                    log.warning(f"WEBSOCKET | Closed with code {e.code}")
                     break
 
             if data:
@@ -82,12 +82,12 @@ class WebSocket:
                 if op == "connection-id":
                     self._connection_id = data.get("id")
                     log.debug(
-                        f"[WEBSOCKET] Received connection-id of {self._connection_id}"
+                        f"WEBSOCKET | Received connection-id of {self._connection_id}"
                     )
 
                 elif op == "metadata":
                     self.metadata = data["data"]
-                    log.debug("Received metadata payload.")
+                    log.debug("WEBSOCKET | Received metadata payload.")
 
                 elif op == "player-update":
                     try:
@@ -95,13 +95,13 @@ class WebSocket:
                             data
                         )
                     except Exception as er:
-                        log.warning(f"Error in player-state data {data}")
+                        log.warning(f"WEBSOCKET | Error in player-state data {data}")
 
                 elif op == "event":
                     await self._event_dispatcher(data)
 
                 else:
-                    log.debug(f"OP {op} returned {data}")
+                    log.debug(f"WEBSOCKET | Unknown OP {op} returned {data}")
 
     async def _event_dispatcher(self, data):
         player = self._node.players[
@@ -111,14 +111,14 @@ class WebSocket:
         event = getattr(events, data["type"], None)
 
         if event is None:
-            log.debug("Unknown event %s, discarding", data["type"])
+            log.debug("WEBSOCKET | Unknown event %s, discarding", data["type"])
             return
         
-        log.debug("Dispatching event %s for guildId %s", data['type'], data['guildId'])
+        log.debug("WEBSOCKET | Dispatching event %s for guildId %s", data['type'], data['guildId'])
 
         await self._node._client.dispatch(event(player, data))
 
     async def _send(self, **data):
         if self.is_connected:
-            log.debug(f"Sending payload {data}")
+            log.debug(f"WEBSOCKET | Sending payload {data}")
             await self._ws.send(json.dumps(data))
