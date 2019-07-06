@@ -79,7 +79,9 @@ class Player:
 
         self.channel_id = channel_id
 
-        await self.bot.ws.voice_state(self.guild_id, str(channel_id))
+        ws = self.bot._connection._get_websocket(guild.id)
+        await ws.voice_state(self.guild_id, str(channel_id))
+
         log.info(f"[PLAYER] Connected to voice channel:  {channel_id}")
 
     async def disconnect(self):
