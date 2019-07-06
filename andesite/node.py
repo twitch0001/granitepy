@@ -70,6 +70,6 @@ class Node:
         for track in data["tracks"]:
             tracks.append(Track(_id=track["track"], data=track["info"]))
 
-        log.debug(f"REST | Found <{len(tracks)}> for query: <{query}>")
+        log.debug(f"REST | Found <{len(tracks)}> results for query: <{query}>")
 
         return tracks
