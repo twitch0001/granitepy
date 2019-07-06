@@ -152,3 +152,5 @@ logs/
 
 # Build outputs
 output/
+
+publish.sh
