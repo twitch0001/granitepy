@@ -88,7 +88,8 @@ class Player:
         """
         Figure out why it was being big dumb
         """
-        await self.bot.ws.voice_state(self.guild_id, None)
+        ws = self.bot._connection._get_websocket(self.guild_id)
+        await ws.voice_state(self.guild_id, None)
 
     async def set_filters(self, filter_type):
         if not issubclass(filter_type.__class__, Filter):
