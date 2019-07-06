@@ -142,3 +142,11 @@ class Player:
 
     async def get_tracks(self, query: str):
         return await self.node.get_tracks(query)
+
+    async def destroy(self):
+        await self.stop()
+        await self.disconnect()
+
+
+        await self.node._websocket._send(op="destroy", guildId=str(self.guild_id))
+        del self.node.players[self.guild_id]
