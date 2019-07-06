@@ -51,7 +51,7 @@ class Node:
         )
         await self._websocket._connect()
 
-        log.debug("NODE | {0.identifier} on shard {0.shard_id} Connected".format(self))
+        log.debug(f"NODE | Connected {self.__repr__()}")
 
     async def get_tracks(self, query: str):
         password = "null" if not self.password else self.password
