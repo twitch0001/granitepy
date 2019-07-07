@@ -1,6 +1,6 @@
+import json
 import logging
 import time
-import json
 
 from discord.ext import commands
 

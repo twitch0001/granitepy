@@ -1,8 +1,10 @@
+import logging
+
+import aiohttp
 from discord.ext import commands
 
-from .objects import Track, Playlist
+from .objects import Playlist, Track
 from .websocket import WebSocket
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +17,6 @@ class Node:
             user_id: int,
             *,
             client,
-            session,
             rest_uri: str,
             password,
             identifier,
@@ -30,7 +31,7 @@ class Node:
         self.shard_id = shard_id
 
         self._client = client
-        self.session = session
+        self.session = None
 
         self.players = {}
 
@@ -49,6 +50,8 @@ class Node:
         self._websocket = WebSocket(
             bot, self.host, self.port, self.password, self
         )
+
+        self.session = aiohttp.ClientSession(loop=self.loop)
         await self._websocket._connect()
         log.debug(f"NODE | Connected {self.__repr__()}")
 

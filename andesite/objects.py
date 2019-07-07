@@ -40,6 +40,3 @@ class Playlist:
 
     def __repr__(self):
         return "<Playlist name={0.name}>".format(self)
-
-
-

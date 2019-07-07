@@ -1,7 +1,6 @@
 import asyncio
 import logging
 
-import aiohttp
 from discord.ext import commands
 
 from .events import Event
@@ -20,7 +19,6 @@ class Client:
         self.bot = bot
         self.loop = bot.loop or asyncio.get_event_loop()
 
-        self.session = aiohttp.ClientSession(loop=self.loop)
         self.nodes = {}
 
         bot.add_listener(self.update_handler, "on_socket_response")
@@ -51,7 +49,6 @@ class Client:
             port,
             self.bot.user.id,
             client=self,
-            session=self.session,
             rest_uri=rest_uri,
             password=password,
             identifier=identifier,
@@ -61,6 +58,8 @@ class Client:
         node.available = True
 
         self.nodes[identifier] = node
+
+        return node
 
     def get_player(self, guild_id: int, cls=None):
         try:
