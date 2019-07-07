@@ -32,7 +32,7 @@ bot.andesite = andesite.Client(bot)
 
 @bot.event
 async def on_ready():
-    await bot.andesite.andesite.start_node(
+    await bot.andesite.start_node(
             "127.0.0.1",
             5000,
             rest_uri = "http://127.0.0.1:5000/",
