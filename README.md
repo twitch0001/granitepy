@@ -11,7 +11,8 @@ For support join [here](https://discord.gg/CHemuhc)
 
 # Installing
  
-The library isn't on PyPi yet so installing it will require git
+The library is on Pypi and is installed with `pip install granitepy`
+but a more updated version is on github and can be installed with git 
 
 `pip install git+https://github.com/twitch0001/granitepy`
 
