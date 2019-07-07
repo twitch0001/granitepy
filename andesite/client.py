@@ -63,11 +63,9 @@ class Client:
 
     def get_player(self, guild_id: int, cls=None):
         try:
-            player = self.players[guild_id]
+            return self.players[guild_id]
         except KeyError:
             pass
-        else:
-            return player
 
         if not self.nodes:
             raise NodesUnavailable("No nodes available")
