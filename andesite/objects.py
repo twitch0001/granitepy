@@ -28,7 +28,18 @@ class Playlist:
     """
     def __init__(self, data: dict):
         self.data = data
+
+        self.name = data['playlistInfo']['name']
+
         self.tracks = [Track(_id = track['track'], data = track['info']) for track in data['tracks']]
+
+
+    def __str__(self):
+        return self.name
+
+
+    def __repr__(self):
+        return "<Playlist name={0.name}>".format(self)
 
 
 
