@@ -1,7 +1,7 @@
 """
 Made by twitch#7443
 """
-__version__ = "0.0.10a"
+__version__ = "0.0.11a"
 
 
 from .client import Client

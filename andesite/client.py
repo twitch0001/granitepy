@@ -69,13 +69,8 @@ class Client:
         else:
             return player
 
-        guild = self.bot.get_guild(guild_id)
-
-        if not guild:
-            raise ValueError("Invalid guild_id passed.")
-
         if not self.nodes:
-            raise NodesUnavailable("No nodes avaiable.")
+            raise NodesUnavailable("No nodes available")
 
         nodes = list(self.nodes.values())
         if not cls:
