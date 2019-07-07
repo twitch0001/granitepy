@@ -6,7 +6,7 @@ from discord.ext import commands
 
 from .filters import Filter
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class Player:
@@ -54,13 +54,13 @@ class Player:
 
         if not self.channel_id:
             self._voice_state.clear()
-            return log.debug("[STATE] no channel_id, clearning state")
+            return logger.debug("PLAYER | Player-update with no channel_id, Clearing state")
 
         await self._dispatch_voice_update()
 
     async def _dispatch_voice_update(self):
         if {"sessionId", "event"} == self._voice_state.keys():
-            log.debug(f"[PLAYER] Sending voice-state")
+            logger.debug(f"PLAYER | Updating voice-state")
             await self.node._websocket._send(
                 op="voice-server-update",
                 guildId=str(self.guild_id),
@@ -82,7 +82,7 @@ class Player:
         ws = self.bot._connection._get_websocket(guild.id)
         await ws.voice_state(self.guild_id, str(channel_id))
 
-        log.info(f"[PLAYER] Connected to voice channel:  {channel_id}")
+        logger.info(f"PLAYER | Connected to voice channel:  {channel_id}")
 
     async def disconnect(self):
         """
@@ -108,7 +108,7 @@ class Player:
         await self.node._websocket._send(
             op="play", guildId=str(self.guild_id), track=track.id
         )
-        log.debug(f"[PLAYER] Now playing {track.title} in {self.channel_id}")
+        logger.debug(f"PLAYER | Now playing {track.title} in {self.channel_id}")
 
     async def pause(self, pause):
         if pause is self.paused:
