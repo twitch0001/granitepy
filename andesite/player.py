@@ -110,7 +110,7 @@ class Player:
         )
         logger.debug(f"PLAYER | Now playing {track.title} in {self.channel_id}")
 
-    async def pause(self, pause):
+    async def set_pause(self, pause):
         if pause is self.paused:
             return
 
