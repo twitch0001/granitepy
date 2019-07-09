@@ -121,7 +121,7 @@ class Player:
         )
 
     async def seek(self, position):
-        if not 0 < position < self.current.length:
+        if not 0 <= position <= self.current.length:
             raise ValueError(
                 "Position cannot be smaller than 0 or larger than track's length"
             )
@@ -137,7 +137,6 @@ class Player:
 
     async def stop(self):
         await self.node._websocket._send(op="stop", guildId=str(self.guild_id))
-
 
     async def get_tracks(self, query: str):
         return await self.node.get_tracks(query)
