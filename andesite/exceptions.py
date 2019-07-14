@@ -3,12 +3,12 @@ class GraniteException(Exception):
 
 
 class NodesUnavailable(GraniteException):
-    """Either no nodes are currently active or all current nodes are not available"""
+    """Either no nodes are currently active or all current nodes are not available."""
 
 
 class InvalidCredientials(GraniteException):
-    """Invalid credentials were passed"""
+    """Invalid credentials were passed."""
 
 
 class HTTPException(GraniteException):
-    """HTTP request failed"""
+    """HTTP request failed."""

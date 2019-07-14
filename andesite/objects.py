@@ -1,4 +1,22 @@
 class Track:
+    """The track gotten from Andesite.
+
+    Attributes
+    ----------
+    id: :class:`str`
+        Not the ID found in YouTube, use :attr:`.yt_id`
+    data: :class:`dict`
+    title: :class:`str`
+    author: :class:`str`
+    length: :class:`str`
+        The length of the track in ``milliseconds``.
+    uri: :class:`str`
+    is_stream: :class:`bool`
+        Whether the current track is a live stream.
+    is_seekable: :class:`bool`
+        Whether the current track can be seeked.
+    position: :class:`int`
+    """
     def __init__(self, _id, data: dict):
         self.id = _id
         self.data = data
@@ -21,10 +39,13 @@ class Track:
 
 
 class Playlist:
-    """Playlist Object.
+    """Similar to :class:`.Track`, but a playlist containing more tracks.
 
-    data - A dict returned from andesite
-    tracks - list of andesite.Track
+    Attributes
+    ----------
+    data: :class:`dict`
+    name: :class:`str`
+    tracks: List[:class:`.Track`]
     """
     def __init__(self, data: dict):
         self.data = data

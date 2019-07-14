@@ -10,6 +10,27 @@ logger = logging.getLogger(__name__)
 
 
 class Player:
+    """Handles every single connection, websocket, node and so on.
+
+    Parameters
+    ----------
+    bot: :class:`commands.Bot`
+    guild_id: :class:`int`
+    node: :class:`.Node`
+
+    Attributes
+    ----------
+    bot: :class:`commands.Bot`
+    guild_id: :class:`int`
+    node: :class:`.Node`
+    last_update: Optional[:class:`float`]
+    last_position: Optional[:class:`int`]
+    last_state: ?
+    position_timestamp: Optional[:class:`int`]
+    volume: :class:`int`
+    paused: :class:`bool`
+    current: Optional[:class:`.Track`]
+    channel_id: Optional[:class:`int`]"""
     def __init__(self, bot: commands.bot, guild_id: int, node):
         self.bot = bot
         self.guild_id = guild_id
@@ -29,6 +50,11 @@ class Player:
 
     @property
     def is_connected(self):
+        """Determines if the player is currently connected to a channel.
+
+        Returns
+        -------
+        :class:`bool`"""
         return self.channel_id is not None
 
     async def update_state(self, state: dict):
@@ -68,10 +94,17 @@ class Player:
             )
 
     async def connect(self, channel_id: int):
-        """
-        Connects to a VoiceChannel,
-        Params:
-          - channel_id integer
+        """Connects to a Discord Voice Channel.
+
+        Parameters
+        ----------
+        channel_id: :class:`int`
+            The channel to connect to.
+
+        Raises
+        ------
+        ValueError
+            This player's guild id was invalidated.
         """
         guild = self.bot.get_guild(self.guild_id)
         if not guild:
@@ -85,19 +118,29 @@ class Player:
         logger.info(f"PLAYER | Connected to voice channel:  {channel_id}")
 
     async def disconnect(self):
-        """
-        Figure out why it was being big dumb
-        """
+        """Disconnects the player from the Voice Channel."""
         ws = self.bot._connection._get_websocket(self.guild_id)
         await ws.voice_state(self.guild_id, None)
 
     async def set_filters(self, filter_type):
+        """.. note:: twitch wtf is a filter
+
+        Raises
+        ------
+        TypeError
+            The filter type was not a subclass of :class:`.Filter`"""
         if not issubclass(filter_type.__class__, Filter):
             raise TypeError("All filters must derive from `Filter`")
 
         await self.node._websocket._send(op="filter", guildId = str(self.guild_id), **filter_type._payload)
 
     async def play(self, track):
+        """Begin playing a track.
+
+        Parameters
+        ----------
+        track: :class:`.Track`
+            The track to play."""
         self.last_update = 0
         self.last_position = 0
         self.position_timestamp = 0
@@ -111,6 +154,12 @@ class Player:
         logger.debug(f"PLAYER | Now playing {track.title} in {self.channel_id}")
 
     async def set_pause(self, pause):
+        """Pauses the player.
+
+        Parameters
+        ----------
+        pause: :class:`bool`
+            True to pause the player, or False to un-pause."""
         if pause is self.paused:
             return
 
@@ -121,6 +170,17 @@ class Player:
         )
 
     async def seek(self, position):
+        """Seeks to a specific point in the playing track.
+
+        Parameters
+        ----------
+        position: :class:`int`
+            The position, in milliseconds, to seek to.
+
+        Raises
+        ------
+        ValueError
+            The specified position was in an invalid range."""
         if not 0 <= position <= self.current.length:
             raise ValueError(
                 "Position cannot be smaller than 0 or larger than track's length"
@@ -131,20 +191,37 @@ class Player:
         )
 
     async def set_volume(self, volume):
+        """Changes the volume to your specified one.
+
+        Parameters
+        ----------
+        volume: :class:`int`
+            The volume to change to."""
         await self.node._websocket._send(
             op="volume", volume=volume, guildId=str(self.guild_id)
         )
 
     async def stop(self):
+        """Stops the player and kills the song."""
         await self.node._websocket._send(op="stop", guildId=str(self.guild_id))
 
     async def get_tracks(self, query: str):
+        """Search for all tracks in that query.
+
+        Parameters
+        ----------
+        query: :class:`str`
+            The query to search for
+
+        Returns
+        -------
+        Union[:class:`.Playlist`, List[:class:`.Track`]]
+            Either a Playlist containing tracks, or a list of tracks to play."""
         return await self.node.get_tracks(query)
 
     async def destroy(self):
+        """Kills the player, disconnecting and stopping the active track."""
         await self.stop()
         await self.disconnect()
-
-
         await self.node._websocket._send(op="destroy", guildId=str(self.guild_id))
         del self.node.players[self.guild_id]
