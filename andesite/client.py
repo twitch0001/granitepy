@@ -12,6 +12,13 @@ log = logging.getLogger(__name__)
 
 
 class Client:
+    """The Python implementation of a client to connect an Andesite node.
+
+    Attributes
+    ----------
+    bot: :class:`commands.Bot`
+    loop: :class:`asyncio.BaseEventLoop`
+    nodes: Dict[:class:`str`, :class:`.Node`"""
     _event_hooks = {}
 
     def __init__(self, bot: commands.Bot):
@@ -29,6 +36,11 @@ class Client:
 
     @property
     def players(self):
+        """Returns a mapping of guilds and their respective player.
+
+        Returns
+        -------
+        Dict[:class:`int`, :class:`.Player`"""
         return self._get_players()
 
     def _get_players(self):
@@ -42,6 +54,19 @@ class Client:
     async def start_node(
         self, host: str, port: int, *, rest_uri: str, password: str, identifier
     ):
+        """Prepares a new music node.
+
+        Parameters
+        ----------
+        host: :class:`str`
+        port: :class:`int`
+        rest_uri: :class:`str`
+        password: Optional[:class:`str`]
+        identifier: :class:`str`
+
+        Returns
+        -------
+        :class:`.Node`"""
         await self.bot.wait_until_ready()
 
         node = Node(
@@ -62,6 +87,13 @@ class Client:
         return node
 
     def get_player(self, guild_id: int, cls=None):
+        """Gets a player corresponding to the guild.
+
+        Parameters
+        ----------
+        guild_id: :class:`int`
+        cls: Optional[:class:`.Player`]
+            An optional subclass of :class:`.Player`."""
         try:
             return self.players[guild_id]
         except KeyError:
@@ -109,8 +141,12 @@ class Client:
             return
 
     async def dispatch(self, event: Event):
-        """
-        Dispatches events, WIP.
+        """Dispatches events, WIP.
+
+        Parameters
+        ----------
+        event: :class:`.Event`
+            The event to dispatch.
         """
         event_name = "andesite_" + event.name
         self.bot.dispatch(event_name, event)
