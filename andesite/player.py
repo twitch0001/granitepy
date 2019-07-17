@@ -132,7 +132,7 @@ class Player:
         if not issubclass(filter_type.__class__, Filter):
             raise TypeError("All filters must derive from `Filter`")
 
-        await self.node._websocket._ws.send(json.dumps({'op': 'filter', **filter_type._payload, 'guildId': str(self.guild_id)}))
+        await self.node._websocket._ws.send(json.dumps({'op': 'filters', **filter_type._payload, 'guildId': str(self.guild_id)}))
         logger.debug(f"PLAYER | Setting filter to <{filter_type}> for player <{self.guild_id}>")
 
     async def play(self, track):
