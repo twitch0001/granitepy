@@ -1,4 +1,4 @@
-version: 0.0.13a
+version: '0.0.13a'
 
 sphinx:
   configuration: docs/conf.py
