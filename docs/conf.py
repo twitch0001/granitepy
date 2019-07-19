@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -23,6 +23,11 @@ author = 'twitch0001'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.13a'
+
+
+
+source_suffix = '.rst'
+master_doc = 'index'
 
 
 # -- General configuration ---------------------------------------------------
