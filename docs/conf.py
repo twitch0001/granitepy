@@ -25,6 +25,11 @@ author = 'twitch0001'
 release = '0.0.13a'
 
 
+
+source_suffix = '.rst'
+master_doc = 'index'
+
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
