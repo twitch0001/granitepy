@@ -4,7 +4,7 @@ A library for the Lavalink like audio provider called [Andesite](https://github.
 
 
 
-For support join [here](https://discord.gg/CHemuhc)
+For support join [here](https://discord.gg/CHemuhc) and here for the [Official Documentation](https://granitepy.readthedocs.io/en/latest/index.html)
 
 
 
