@@ -95,7 +95,7 @@ class WebSocket:
                             data
                         )
                     except Exception as er:
-                        log.warning(f"WEBSOCKET | Error in player-state data {data}")
+                        log.debug(f"WEBSOCKET | Error in player-state data {data}")
 
                 elif op == "event":
                     await self._event_dispatcher(data)
