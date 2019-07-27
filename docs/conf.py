@@ -22,7 +22,7 @@ copyright = '2019, twitch0001'
 author = 'twitch0001'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.15a'
+release = '0.0.17a'
 
 
 
