@@ -230,6 +230,7 @@ class Player:
     async def stop(self):
         """Stops the player and kills the song."""
         await self.node._websocket._send(op="stop", guildId=str(self.guild_id))
+        self.current = None
 
     async def get_tracks(self, query: str):
         """Search for all tracks in that query.
