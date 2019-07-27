@@ -57,6 +57,31 @@ class Player:
         :class:`bool`"""
         return self.channel_id is not None
 
+    @property
+    def is_playing(self):
+        """Returns the player's current state.
+
+        Returns
+        -------
+        :class:`bool`"""
+        return self.is_connected and self.current is not None
+
+    @property
+    def position(self):
+        """Returns the player's current position.
+
+        Returns
+        -------
+        :class:`float`"""
+        if not self.is_playing:
+            return 0
+
+        if self.paused:
+            return min(self.last_position, self.current.length)
+
+        difference = time.time() * 1000 - self.last_update
+        return min(self.last_position + difference, self.current.length)
+
     async def update_state(self, state: dict):
         state = state["state"]
 
