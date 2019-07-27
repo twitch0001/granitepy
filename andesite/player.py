@@ -160,7 +160,7 @@ class Player:
         await self.node._websocket._ws.send(json.dumps({'op': 'filters', **filter_type._payload, 'guildId': str(self.guild_id)}))
         logger.debug(f"PLAYER | Setting filter to <{filter_type}> for player <{self.guild_id}>")
 
-    async def play(self, track):
+    async def play(self, track, position=0):
         """Begin playing a track.
 
         Parameters
@@ -175,7 +175,7 @@ class Player:
         self.current = track
 
         await self.node._websocket._send(
-            op="play", guildId=str(self.guild_id), track=track.id
+            op="play", guildId=str(self.guild_id), track=track.id, start=position
         )
         logger.debug(f"PLAYER | Now playing {track.title} in {self.channel_id}")
 
