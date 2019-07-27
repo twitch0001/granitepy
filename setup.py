@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 setup(
     name = "granitepy",
     packages = ['andesite'],
-    version = "0.0.13a",
+    version = "0.0.14a",
     description = "A library for the lavalink like audio provider called andesite",
     long_description=long_description,
     long_description_content_type="text/markdown",
