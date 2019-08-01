@@ -226,6 +226,7 @@ class Player:
         await self.node._websocket._send(
             op="volume", volume=volume, guildId=str(self.guild_id)
         )
+        self.volume = volume
 
     async def stop(self):
         """Stops the player and kills the song."""
