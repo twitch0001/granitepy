@@ -335,7 +335,7 @@ class Player:
         -------
         :class:`Equalizer`
         """
-        equalizer = Equalizer(levels=levels)
+        equalizer = Equalizer.build(levels=levels)
         await self.set_filters(equalizer)
 
 
