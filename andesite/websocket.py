@@ -90,9 +90,7 @@ class WebSocket:
                     log.debug("WEBSOCKET | Received metadata payload.")
 
                 elif op == "player-update":
-                    player = self._node.players.get(
-                        int(data["guildId"])
-                    )
+                    player = self._node.players.get(int(data["guildId"]))
                     if not player:
                         # We have no player matching the guildID ignoring.
                         # However i have not tested the effects of ignoring this.
