@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 class WebSocket:
     def __init__(
-        self, bot: commands.Bot, host: str, port: int, password: str, node
+            self, bot: commands.Bot, host: str, port: int, password: str, node
     ):
         self.bot = bot
         self.host = host
@@ -90,12 +90,15 @@ class WebSocket:
                     log.debug("WEBSOCKET | Received metadata payload.")
 
                 elif op == "player-update":
-                    try:
-                        await self._node.players[int(data["guildId"])].update_state(
-                            data
-                        )
-                    except Exception as er:
-                        log.debug(f"WEBSOCKET | Error in player-state data {data}")
+                    player = self._node.players.get(
+                        int(data["guildId"])
+                    )
+                    if not player:
+                        # We have no player matching the guildID ignoring.
+                        # However i have not tested the effects of ignoring this.
+                        continue
+
+                    await player.update_state(data)
 
                 elif op == "event":
                     await self._event_dispatcher(data)
@@ -104,16 +107,19 @@ class WebSocket:
                     log.debug(f"WEBSOCKET | Unknown OP {op} returned {data}")
 
     async def _event_dispatcher(self, data):
-        player = self._node.players[
+        player = self._node.players.get(
             int(data["guildId"])
-        ]  # getting the player that all events use, apart from websocket close.
+        )
+
+        if not player:
+            return  # We have no player matching the guildID ignoring.
 
         event = getattr(events, data["type"], None)
 
         if event is None:
             log.debug("WEBSOCKET | Unknown event %s, discarding", data["type"])
             return
-        
+
         log.debug("WEBSOCKET | Dispatching event %s for guildId %s", data['type'], data['guildId'])
 
         await self._node._client.dispatch(event(player, data))
