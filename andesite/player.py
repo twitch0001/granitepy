@@ -4,7 +4,7 @@ import time
 
 from discord.ext import commands
 
-from .filters import Filter
+from .filters import *
 
 logger = logging.getLogger(__name__)
 
@@ -253,3 +253,55 @@ class Player:
         await self.disconnect()
         await self.node._websocket._send(op="destroy", guildId=str(self.guild_id))
         del self.node.players[self.guild_id]
+
+    async def set_timescale(self, *, speed: float = 1, pitch: float = 1, rate: float = 1):
+        """Sets the Timescale filter for the player
+
+        All params are default to what andesite recommends.
+
+        Parameters
+        ----------
+        speed: :class:`float`
+        pitch: :class:`float`
+        rate: :class:`float`
+        """
+        timescale = Timescale(speed=speed, pitch=pitch, rate=rate)
+        await self.set_filters(timescale)
+
+    async def set_karaoke(self, *, level: float = 1, mono_level: float = 1, filter_band: float = 220, filter_width: float = 100):
+        """Sets the Karaoke filter for the player.
+
+        Parameters
+        ----------
+        level: :class:`float`
+        mono_level: :class:`float`
+        filter_band: :class:`float`
+        filter_width: :class:`float`
+        """
+        karaoke = Karaoke(level=level, mono_level=mono_level, filter_band=filter_band, filter_width=filter_width)
+        await self.set_filters(karaoke)
+
+    async def set_tremolo(self, *, frequency: float = 2, depth: float = 0.5):
+        """Sets the Tremolo filter for the player
+
+        Parameters
+        ----------
+        frequency: :class:`float`
+        depth: :class:`float`
+        """
+        tremolo = Tremolo(frequency=frequency, depth=depth)
+        await self.set_filters(tremolo)
+
+    async def set_vibrato(self, frequency: float = 2, depth: float = 0.5):
+        """Sets the Vibrato filter for the player
+
+        Parameters
+        ----------
+        frequency: :class:`float`
+        depth: :class:`float`
+        """
+        vibrato = Vibrato(frequency=frequency, depth=depth)
+        await self.set_filters(vibrato)
+
+
+
