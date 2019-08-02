@@ -4,8 +4,19 @@ class Filter:
 
 
 class Equalizer(Filter):
-    def __init__(self, band, gain):
-        pass
+    def __init__(self, levels: list):
+        self.raw = levels
+
+        values = {}
+
+        values.update(levels)
+        values = [{"band": i, "gain": values[i]} for i in range(14)]
+
+        self.eq = values
+
+    @classmethod
+    def build(cls, *, levels: list):
+        return cls(levels)
 
 
 class Karaoke(Filter):
