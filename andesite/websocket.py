@@ -105,9 +105,7 @@ class WebSocket:
                     log.debug(f"WEBSOCKET | Unknown OP {op} returned {data}")
 
     async def _event_dispatcher(self, data):
-        player = self._node.players.get(
-            int(data["guildId"])
-        )
+        player = self._node.players.get(int(data["guildId"]))
 
         if not player:
             return  # We have no player matching the guildID ignoring.
