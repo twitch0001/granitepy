@@ -12,7 +12,7 @@ class Equalizer(Filter):
         values.update(levels)
         values = [{"band": i, "gain": values[i]} for i in range(14)]
 
-        self.eq = values
+        self._payload = values
 
     @classmethod
     def build(cls, *, levels: list):
