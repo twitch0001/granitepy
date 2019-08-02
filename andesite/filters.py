@@ -1,3 +1,5 @@
+import collections
+
 class Filter:
     # TODO: Add comparisons
     pass
@@ -7,7 +9,7 @@ class Equalizer(Filter):
     def __init__(self, levels: list):
         self.raw = levels
 
-        values = {}
+        values = collections.defaultdict(int)
 
         values.update(levels)
         values = [{"band": i, "gain": values[i]} for i in range(14)]
