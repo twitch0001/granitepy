@@ -1,11 +1,15 @@
 import collections
 
+
 class Filter:
     # TODO: Add comparisons
     pass
 
 
 class Equalizer(Filter):
+    """Equalizers are work in progress
+    Don't use these unless you like getting your player broken ;)
+    """
     def __init__(self, levels: list):
         self.raw = levels
 

@@ -323,20 +323,3 @@ class Player:
         vibrato = Vibrato(frequency=frequency, depth=depth)
         await self.set_filters(vibrato)
         return vibrato
-
-    async def set_eq(self, *, levels: list):
-        """Sets the Equalizer for the player
-
-        Parameters
-        ----------
-        levels: :class:`list`
-
-        Returns
-        -------
-        :class:`Equalizer`
-        """
-        equalizer = Equalizer.build(levels=levels)
-        await self.set_filters(equalizer)
-
-
-
