@@ -264,9 +264,15 @@ class Player:
         speed: :class:`float`
         pitch: :class:`float`
         rate: :class:`float`
+
+        Returns
+        -------
+        :class:`Timescale`
+
         """
         timescale = Timescale(speed=speed, pitch=pitch, rate=rate)
         await self.set_filters(timescale)
+        return timescale
 
     async def set_karaoke(self, *, level: float = 1, mono_level: float = 1, filter_band: float = 220, filter_width: float = 100):
         """Sets the Karaoke filter for the player.
@@ -277,9 +283,14 @@ class Player:
         mono_level: :class:`float`
         filter_band: :class:`float`
         filter_width: :class:`float`
+
+        Returns
+        -------
+        :class:`Karaoke`
         """
         karaoke = Karaoke(level=level, mono_level=mono_level, filter_band=filter_band, filter_width=filter_width)
         await self.set_filters(karaoke)
+        return karaoke
 
     async def set_tremolo(self, *, frequency: float = 2, depth: float = 0.5):
         """Sets the Tremolo filter for the player
@@ -288,9 +299,14 @@ class Player:
         ----------
         frequency: :class:`float`
         depth: :class:`float`
+
+        Returns
+        -------
+        :class:`Tremolo`
         """
         tremolo = Tremolo(frequency=frequency, depth=depth)
         await self.set_filters(tremolo)
+        return tremolo
 
     async def set_vibrato(self, frequency: float = 2, depth: float = 0.5):
         """Sets the Vibrato filter for the player
@@ -299,9 +315,14 @@ class Player:
         ----------
         frequency: :class:`float`
         depth: :class:`float`
+
+        Returns
+        -------
+        :class:`Vibrato`
         """
         vibrato = Vibrato(frequency=frequency, depth=depth)
         await self.set_filters(vibrato)
+        return vibrato
 
 
 
