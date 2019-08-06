@@ -1,5 +1,7 @@
 import json
 import logging
+import sys
+import traceback
 
 import websockets
 from discord.ext import commands
@@ -43,14 +45,15 @@ class WebSocket:
 
         uri = f"ws://{self.host}:{self.port}/websocket"
 
-        # try:
-        #     self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
-        #     self._node.available = True
-        # except Exception as er:
-        #     return log.warning(er)
+        try:
+            self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
+            self._node.available = True
+        except Exception as error:
+            self._node.available = False
 
-        self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
-        self._node.available = True
+            log.error(f"WEBSOCKET | Node connection failure: {error}")
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+            return
 
         if not self._task:
             self._task = self.bot.loop.create_task(self._listen())

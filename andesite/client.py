@@ -52,7 +52,7 @@ class Client:
         return {player.guild_id: player for player in players}
 
     async def start_node(
-        self, host: str, port: int, *, rest_uri: str, password: str, identifier
+            self, host: str, port: int, *, rest_uri: str, password: str, identifier
     ):
         """Prepares a new music node.
 
