@@ -37,7 +37,7 @@ class Node:
 
         self._websocket = None
 
-        self.available = True
+        self.available = False
 
     def __repr__(self):
         p_count = len(self.players.keys())
