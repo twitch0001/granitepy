@@ -43,11 +43,14 @@ class WebSocket:
 
         uri = f"ws://{self.host}:{self.port}/websocket"
 
-        try:
-            self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
-            self._node.available = True
-        except Exception as er:
-            return log.warning(er)
+        # try:
+        #     self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
+        #     self._node.available = True
+        # except Exception as er:
+        #     return log.warning(er)
+
+        self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
+        self._node.available = True
 
         if not self._task:
             self._task = self.bot.loop.create_task(self._listen())
