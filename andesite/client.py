@@ -52,9 +52,11 @@ class Client:
         return {player.guild_id: player for player in players}
 
     async def start_node(
-        self, host: str, port: int, *, rest_uri: str, password: str, identifier
+            self, host: str, port: int, *, rest_uri: str, password: str, identifier
     ):
         """Prepares a new music node.
+
+        .. note::  The node will become available once it's websocket connects.
 
         Parameters
         ----------
@@ -80,10 +82,7 @@ class Client:
         )
         await node.connect(self.bot)
 
-        node.available = True
-
         self.nodes[identifier] = node
-
         return node
 
     def get_player(self, guild_id: int, cls=None):

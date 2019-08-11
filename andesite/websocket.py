@@ -1,10 +1,13 @@
 import json
 import logging
+import sys
+import traceback
 
 import websockets
 from discord.ext import commands
 
 from . import events
+from . import exceptions
 
 log = logging.getLogger(__name__)
 
@@ -45,8 +48,13 @@ class WebSocket:
 
         try:
             self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
-        except Exception as er:
-            return log.warning(er)
+            self._node.available = True
+        except Exception as error:
+            self._node.available = False
+
+            log.error(f"WEBSOCKET | Node connection failure: {error}")
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+            return
 
         if not self._task:
             self._task = self.bot.loop.create_task(self._listen())
@@ -61,19 +69,14 @@ class WebSocket:
                 data = await self._ws.recv()
             except websockets.ConnectionClosed as e:
                 if e.code == 4001:
-                    log.warning("WEBSOCKET | Incorrect authentication")
-                    break
-
-                elif e.code == 4002:
-                    log.warning(
-                        f"WEBSOCKET | Closed with code 4002, attempting reconnect"
-                    )
-                    await self._connect()
-                    break
-
+                    raise exceptions.InvalidCredentials("Invalid credentials were passed.")
+                elif e.code == 1006:
+                    log.debug("WEBSOCKET | Connection abnormally closed, setting node to unavailable")
+                    self._node.available = False
                 else:
                     log.warning(f"WEBSOCKET | Closed with code {e.code}")
-                    break
+
+                break
 
             if data:
                 data = json.loads(data)
