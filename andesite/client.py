@@ -69,6 +69,7 @@ class Client:
         Returns
         -------
         :class:`.Node`"""
+        await self.bot.wait_until_ready()
 
         node = Node(
             host,
