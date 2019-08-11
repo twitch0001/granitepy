@@ -6,7 +6,7 @@ class NodesUnavailable(GraniteException):
     """Either no nodes are currently active or all current nodes are not available."""
 
 
-class InvalidCredientials(GraniteException):
+class InvalidCredentials(GraniteException):
     """Invalid credentials were passed."""
 
 
