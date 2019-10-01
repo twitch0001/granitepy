@@ -234,7 +234,7 @@ class Player:
         self.current = None
 
     async def get_tracks(self, query: str):
-        """Search for all tracks in that query.
+        """Search for all tracks with a query.
 
         Parameters
         ----------
@@ -257,7 +257,7 @@ class Player:
     async def set_timescale(self, *, speed: float = 1, pitch: float = 1, rate: float = 1):
         """Sets the Timescale filter for the player
 
-        All params are default to what andesite recommends.
+        All params default to what andesite recommends.
 
         Parameters
         ----------
