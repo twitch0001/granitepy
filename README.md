@@ -4,7 +4,7 @@ A library for the Lavalink like audio provider called [Andesite](https://github.
 
 
 
-For support join [here](https://discord.gg/CHemuhc) and here for the [Official Documentation](https://granitepy.readthedocs.io/en/latest/index.html)
+For support join [here](https://discord.gg/CHemuhc) and click here for the [Official Documentation](https://granitepy.readthedocs.io/en/latest/index.html)
 
 
 
@@ -12,7 +12,7 @@ For support join [here](https://discord.gg/CHemuhc) and here for the [Official D
 # Installing
  
 The library is on Pypi and is installed with `pip install granitepy`
-but a more updated version is on github and can be installed with git 
+however a more updated version is on github and can be installed with git 
 
 `pip install git+https://github.com/twitch0001/granitepy`
 
@@ -56,7 +56,7 @@ async def connect(ctx):
 async def play(ctx, *, search):
     player = bot.andesite.get_player(ctx.guild.id)
 
-    tracks = await player.node.get_tracks(f"ytsearch: {search}") # returns a list andesite.Track objects 
+    tracks = await player.node.get_tracks(f"ytsearch: {search}") # returns a list of andesite.Track objects 
     if not tracks: # andesite returned no tracks.
         return await ctx.send("Nothing found.")
 
@@ -68,6 +68,6 @@ bot.run("token")
 ```
 
 
-This lib is heavily based on [Wavelink](https://github.com/EvieePy/Wavelink) made by [EvieePy](https://github.com/EvieePy) Huge thanks for making wavelink, would be stuck on a few connection things if it weren't for wavelink.
+This library is heavily based on [Wavelink](https://github.com/EvieePy/Wavelink) made by [EvieePy](https://github.com/EvieePy) Huge thanks for making wavelink, would be stuck on a few connection things if it weren't for wavelink.
 
 
