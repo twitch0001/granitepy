@@ -36,7 +36,7 @@ class Client:
 
     @property
     def players(self):
-        """Returns a mapping of guilds and their respective player.
+        """Returns a mapping of guilds and their respective players.
 
         Returns
         -------
@@ -86,7 +86,7 @@ class Client:
         return node
 
     def get_player(self, guild_id: int, cls=None):
-        """Gets a player corresponding to the guild.
+        """Gets the player corresponding to the guild.
 
         Parameters
         ----------
