@@ -44,7 +44,7 @@ class WebSocket:
     async def _connect(self):
         await self.bot.wait_until_ready()
 
-        uri = f"ws://{self.host}:{self.port}/websocket"
+        uri = f"wss://{self.host}:{self.port}/websocket"
 
         try:
             self._ws = await websockets.connect(uri=uri, extra_headers=self.headers)
